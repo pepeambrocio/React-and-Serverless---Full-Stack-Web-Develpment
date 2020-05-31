@@ -10,6 +10,6 @@ export default createGlobalStyle`
     }
 
     h1,h2{
-        
+        margin-bottom : 2rem;        
     }
 `;
