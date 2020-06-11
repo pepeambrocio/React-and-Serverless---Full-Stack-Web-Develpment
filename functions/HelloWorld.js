@@ -1,8 +1,8 @@
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      msg: "Hello World!",
+      msg: "Hello World",
     }),
   };
 };
