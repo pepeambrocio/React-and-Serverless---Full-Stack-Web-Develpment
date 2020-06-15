@@ -8,7 +8,8 @@ export const StyledNavbar = styled.nav`
 `;
 
 export const StyledNavBrand = styled.div`
-  font-size: 1.4rem;
+  font-size: 24px;
+  text-align: left;
   & > a {
     text-decoration: none;
   }
@@ -18,14 +19,15 @@ export const StyledNavItems = styled.ul`
   list-style: none;
   padding-left: 0;
   display: grid;
-  grid-auto-flow: column;
   grid-gap: 20px;
+  grid-auto-flow: column;
+  align-items: center;
 `;
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 1.2rem;
-  transition: color 200ms;
+  transition: 200ms;
   &:hover {
     color: #e16365;
   }

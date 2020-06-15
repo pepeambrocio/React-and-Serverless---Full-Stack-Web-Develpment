@@ -12,7 +12,7 @@ export const StyledScore = styled.p`
   font-size: 1.5rem;
 `;
 
-export const StyleTimer = styled.p`
+export const StyledTimer = styled.p`
   font-size: 1.5rem;
   grid-column: 3;
 `;

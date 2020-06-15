@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   StyledGame,
-  StyledScore,
-  StyleTimer,
   StyledCharacter,
+  StyledScore,
+  StyledTimer,
 } from "../styled/Game";
 import { Strong } from "../styled/Random";
 import { useScore } from "../contexts/ScoreContext";
-
 export default function Game({ history }) {
   const [score, setScore] = useScore(0);
   const MAX_SECONDS = 5;
@@ -32,8 +31,8 @@ export default function Game({ history }) {
   };
 
   const updateTime = (startTime) => {
-    const endDate = new Date();
-    const msPassedStr = (endDate.getTime() - startTime.getTime()).toString();
+    const endTime = new Date();
+    const msPassedStr = (endTime.getTime() - startTime.getTime()).toString();
     //add zeros if necessary to ensure the string has exactly 5 characters
     const formattedMSString = ("0000" + msPassedStr).slice(-5);
     //0000 - first 2 are the seconds, and the last 3 are the ms
@@ -42,7 +41,6 @@ export default function Game({ history }) {
     const updatedMs =
       1000 -
       parseInt(formattedMSString.substring(formattedMSString.length - 3));
-
     setSeconds(addLeadingZeros(updatedSeconds, 2));
     setMs(addLeadingZeros(updatedMs, 3));
   };
@@ -87,15 +85,15 @@ export default function Game({ history }) {
   return (
     <StyledGame>
       <StyledScore>
-        Score:<Strong>{score}</Strong>
+        Score: <Strong>{score}</Strong>
       </StyledScore>
       <StyledCharacter>{currentCharacter}</StyledCharacter>
-      <StyleTimer>
+      <StyledTimer>
         Time:{" "}
         <Strong>
-          {seconds}: {ms}
+          {seconds}:{ms}
         </Strong>
-      </StyleTimer>
+      </StyledTimer>
     </StyledGame>
   );
 }

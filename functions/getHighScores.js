@@ -8,9 +8,12 @@ exports.handler = async (event) => {
       body: JSON.stringify(records),
     };
   } catch (err) {
+    console.error(err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ err: "Faild to query records in Airtable." }),
+      body: JSON.stringify({
+        err: "Failed to query records in Airtable",
+      }),
     };
   }
 };

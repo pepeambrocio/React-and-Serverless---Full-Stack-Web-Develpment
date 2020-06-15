@@ -13,7 +13,7 @@ const getHighScores = async (filterEmptyRecords) => {
     sort: [{ field: "name", direction: "desc" }],
   };
   if (filterEmptyRecords) {
-    queryOptions.filterByFormula = `AND(name !== "", score > 0)`;
+    queryOptions.filterByFormula = `AND(name != "", score > 0)`;
   }
   const records = await table.select(queryOptions).firstPage();
   const formattedRecords = records.map((record) => ({

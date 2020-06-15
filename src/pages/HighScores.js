@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { ScoreList, ScoreLI } from "../styled/HighScore";
+import { ScoresList, ScoreLI } from "../styled/HighScores";
 
 export default function HighScores() {
-  //use the fetch API to call getHighScore function
   //display those scores
-  const [highScore, setHighScores] = useState([]);
+  const [highScores, setHighScores] = useState([]);
 
   //use the fetch API to call getHighScores function
   useEffect(() => {
-    const loadHighScore = async () => {
+    const loadHighScores = async () => {
       try {
         const res = await fetch("/.netlify/functions/getHighScores");
         const scores = await res.json();
         setHighScores(scores);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
-    loadHighScore();
-  });
+    loadHighScores();
+  }, []);
   return (
     <div>
-      <h1> HighScores </h1>
-      <ScoreList>
-        {highScore.map((score) => (
+      <h1>High Scores</h1>
+      <ScoresList>
+        {highScores.map((score, index) => (
           <ScoreLI key={score.id}>
-            {score.fields.name} - {score.fields.score}
+            {index + 1}. {score.fields.name} - {score.fields.score}
           </ScoreLI>
         ))}
-      </ScoreList>
+      </ScoresList>
     </div>
   );
 }

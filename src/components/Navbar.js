@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
+  StyledNavItems,
   StyledNavbar,
   StyledNavBrand,
-  StyledNavItems,
   StyledLink,
 } from "../styled/Navbar";
 import { Accent } from "../styled/Random";
@@ -11,23 +11,17 @@ import { Accent } from "../styled/Random";
 export default function Navbar() {
   return (
     <StyledNavbar>
-      <div>
+      <StyledNavBrand className="nav__brand">
         <Link to="/">
           Learn.Build.<Accent>Type.</Accent>
         </Link>
-      </div>
+      </StyledNavBrand>
       <StyledNavItems>
         <li>
           <StyledLink to="/">Home</StyledLink>
         </li>
         <li>
-          <StyledLink to="/highScores">HighScores</StyledLink>
-        </li>
-        <li>
-          <StyledLink to="/Game">Game</StyledLink>
-        </li>
-        <li>
-          <StyledLink to="/gameOver">GameOver</StyledLink>
+          <StyledLink to="/highScores">High Scores</StyledLink>
         </li>
       </StyledNavItems>
     </StyledNavbar>
