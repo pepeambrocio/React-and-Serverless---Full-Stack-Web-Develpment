@@ -1,7 +1,7 @@
 const { table, getHighScores } = require("./utils/airtable");
 
 exports.handler = async (event) => {
-  if (event.httpMehod !== "POST") {
+  if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
       body: JSON.stringify({ err: "That method is not allowed" }),
@@ -9,7 +9,7 @@ exports.handler = async (event) => {
   }
 
   const { score, name } = JSON.parse(event.body);
-  if (!score || !name) {
+  if (typeof score === "undefined" || !name) {
     return {
       statusCode: 400,
       body: JSON.stringify({ err: "Bad request" }),
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
         id: lowestRecord.id,
         fields: { name, score },
       };
-      await table.update({ updatedRecord });
+      await table.update([updatedRecord]);
       return {
         statusCode: 200,
         body: JSON.stringify(updatedRecord),
@@ -42,6 +42,7 @@ exports.handler = async (event) => {
       };
     }
   } catch (err) {
+    console.error(err);
     return {
       statusCode: 500,
       body: JSON.stringify({ err: "Faild to save in Airtable." }),

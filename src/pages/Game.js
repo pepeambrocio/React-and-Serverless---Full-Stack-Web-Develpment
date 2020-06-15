@@ -9,25 +9,34 @@ import { Strong } from "../styled/Random";
 import { useScore } from "../contexts/ScoreContext";
 
 export default function Game({ history }) {
-  const [score, setScore] = useScore();
-  const MAX_SECONDS = 4;
-  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-  const [currentCharacter, setCurrentCharacter] = useState("");
-  const [ms, setMs] = useState(0);
+  const [score, setScore] = useScore(0);
+  const MAX_SECONDS = 5;
+  const [ms, setMs] = useState(999);
   const [seconds, setSeconds] = useState(MAX_SECONDS);
+  const [currentCharacter, setCurrentCharacter] = useState("");
+  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
 
   useEffect(() => {
     setRandomCharacter();
     setScore(0);
     const currentTime = new Date();
     const interval = setInterval(() => updateTime(currentTime), 1);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
+
+  const setRandomCharacter = () => {
+    const randomInt = Math.floor(Math.random() * 36);
+    setCurrentCharacter(characters[randomInt]);
+  };
 
   const updateTime = (startTime) => {
     const endDate = new Date();
     const msPassedStr = (endDate.getTime() - startTime.getTime()).toString();
+    //add zeros if necessary to ensure the string has exactly 5 characters
     const formattedMSString = ("0000" + msPassedStr).slice(-5);
+    //0000 - first 2 are the seconds, and the last 3 are the ms
     const updatedSeconds =
       MAX_SECONDS - parseInt(formattedMSString.substring(0, 2)) - 1;
     const updatedMs =
@@ -38,14 +47,6 @@ export default function Game({ history }) {
     setMs(addLeadingZeros(updatedMs, 3));
   };
 
-  const addLeadingZeros = (num, length) => {
-    let zeros = "";
-    for (let i = 0; i < length; i++) {
-      zeros += "0";
-    }
-    return (zeros + num).slice(-length);
-  };
-
   useEffect(() => {
     if (seconds <= -1) {
       //Todo: save the score
@@ -53,8 +54,9 @@ export default function Game({ history }) {
     }
   }, [seconds, ms, history]);
 
-  const keyupHandler = useCallback(
+  const keyUpHandler = useCallback(
     (e) => {
+      console.log(e.key, currentCharacter);
       if (e.key === currentCharacter) {
         setScore((prevScore) => prevScore + 1);
       } else {
@@ -68,15 +70,18 @@ export default function Game({ history }) {
   );
 
   useEffect(() => {
-    document.addEventListener("keyup", keyupHandler);
+    document.addEventListener("keyup", keyUpHandler);
     return () => {
-      document.removeEventListener("keyup", keyupHandler);
+      document.removeEventListener("keyup", keyUpHandler);
     };
-  }, [keyupHandler]);
+  }, [keyUpHandler]);
 
-  const setRandomCharacter = () => {
-    const randomInt = Math.floor(Math.random() * 36);
-    setCurrentCharacter(characters[randomInt]);
+  const addLeadingZeros = (str, length) => {
+    let zeros = "";
+    for (let i = 0; i < length; i++) {
+      zeros += "0";
+    }
+    return (zeros + str).slice(-length);
   };
 
   return (
