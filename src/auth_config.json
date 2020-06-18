@@ -1,4 +1,5 @@
 {
   "domain": "learn-build-type-jca.us.auth0.com",
-  "clientId": "Z5kRclduJQUQiwvoP501h1YV51teRUOD"
+  "clientId": "Z5kRclduJQUQiwvoP501h1YV51teRUOD",
+  "audience": "https://learnbuildtypejcaapi"
 }
