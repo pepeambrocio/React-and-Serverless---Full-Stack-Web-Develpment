@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import CTA from "../styled/CTA";
+import React from "react";
 import { Accent, StyledTitle } from "../styled/Random";
+import CTA from "../styled/CTA";
 
 export default function Home() {
   return (

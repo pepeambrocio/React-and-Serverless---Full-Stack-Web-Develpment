@@ -1,13 +1,19 @@
 const { table, getHighScores } = require("./utils/airtable");
-const { getAccessTokenFromHeaders } = require("./utils/auth");
+const {
+  getAccessTokenFromHeaders,
+  validateAccessToken,
+} = require("./utils/auth");
 
 exports.handler = async (event) => {
-  console.log(event.headers);
   const token = getAccessTokenFromHeaders(event.headers);
-  if (!token) {
+  const user = await validateAccessToken(token);
+  //console.log(event.headers);
+  console.log(user);
+
+  if (!user) {
     return {
-      statusCode: 401,
-      body: JSON.stringify({ err: "User is not logget in" }),
+      statusCode: 403,
+      body: JSON.stringify({ err: "Unauthorized" }),
     };
   }
   if (event.httpMethod !== "POST") {
@@ -17,7 +23,8 @@ exports.handler = async (event) => {
     };
   }
 
-  const { score, name } = JSON.parse(event.body);
+  const { score } = JSON.parse(event.body);
+  const name = user["https://learnbuildtype/username"];
   if (typeof score === "undefined" || !name) {
     return {
       statusCode: 400,
@@ -51,7 +58,6 @@ exports.handler = async (event) => {
       };
     }
   } catch (err) {
-    console.error(err);
     return {
       statusCode: 500,
       body: JSON.stringify({ err: "Faild to save in Airtable." }),
