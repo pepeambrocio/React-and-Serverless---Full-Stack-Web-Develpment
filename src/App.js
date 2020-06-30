@@ -7,39 +7,34 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { Container } from "./styled/Container";
 import { Main } from "./styled/Main";
-import Global from "./styled/Global";
+import GlobalStyle from "./styled/Global";
 import { useAuth0 } from "./auth";
+import { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme } from "./styled/Themes";
 
 function App() {
   const { loading } = useAuth0();
-  if (loading) {
-    return (
-      <>
-        <Global />
-
-        <Main>
-          <p>Loading...</p>
-        </Main>
-      </>
-    );
-  }
+  const theme = "light";
+  const currentTheme = theme === "light" ? lightTheme : darkTheme;
   return (
     <Router>
-      <Global />
-      <Main>
-        {loading && <p>Loading...</p>}
-        {!loading && (
-          <Container>
-            <Navbar />
-            <Switch>
-              <Route path="/game" component={Game} />
-              <Route path="/highScores" component={HighScores} />
-              <Route path="/gameOver" component={GameOver} />
-              <Route path="/" component={Home} />
-            </Switch>
-          </Container>
-        )}
-      </Main>
+      <ThemeProvider theme={currentTheme}>
+        <GlobalStyle />
+        <Main>
+          {loading && <p>Loading...</p>}
+          {!loading && (
+            <Container>
+              <Navbar />
+              <Switch>
+                <Route path="/game" component={Game} />
+                <Route path="/highScores" component={HighScores} />
+                <Route path="/gameOver" component={GameOver} />
+                <Route path="/" component={Home} />
+              </Switch>
+            </Container>
+          )}
+        </Main>
+      </ThemeProvider>
     </Router>
   );
 }
