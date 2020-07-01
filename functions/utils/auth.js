@@ -22,7 +22,6 @@ const getAccessTokenFromHeaders = (headers) => {
 const validateAccessToken = async (token) => {
   try {
     const decodedToken = jwt.decode(token, { complete: true });
-    console.log(decodedToken);
     const kid = decodedToken.header.kid;
     const alg = decodedToken.header.alg;
     const getSigningKey = promisify(jwksClient.getSigningKey);
